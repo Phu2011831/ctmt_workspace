@@ -1,12 +1,12 @@
 module regfile (
-	input	 logic 		  i_clk,			//Tin hieu clock
-   input	 logic        i_rst,			//Tin hieu reset
+   input  logic        i_clk,			//Tin hieu clock
+   input  logic        i_rst,			//Tin hieu reset
    input  logic 		  i_rd_wren,	//Tin hieu cho phep ghi
    input  logic [4:0]  i_rd_addr,	//Dia chi ghi rd
    input  logic [4:0]  i_rs1_addr,	//Dia chi doc rs1
    input  logic [4:0]  i_rs2_addr,	//Dia chi doc rs2
-	input  logic [31:0] i_rd_data,	//Du lieu ghi theo rd
-	output logic [31:0] o_rs1_data,	//Du lieu doc theo rs1
+   input  logic [31:0] i_rd_data,	//Du lieu ghi theo rd
+   output logic [31:0] o_rs1_data,	//Du lieu doc theo rs1
    output logic [31:0] o_rs2_data	//Du lieu doc theo rs2
 );
 

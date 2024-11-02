@@ -22,4 +22,4 @@
 |  singlecycle|     No     |       No        |                                                                                                   |
 
 
-# Modified architec: https://app.diagrams.net/#G16jKerJRJiZblEl0PO3Vn0f9-Lqtgqtve#%7B%22pageId%22%3A%22yCGq0VuzWcnLTBvHg4hA%22%7D
+# Modified architecture: https://app.diagrams.net/#G16jKerJRJiZblEl0PO3Vn0f9-Lqtgqtve#%7B%22pageId%22%3A%22yCGq0VuzWcnLTBvHg4hA%22%7D

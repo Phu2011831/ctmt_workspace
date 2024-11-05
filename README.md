@@ -3,7 +3,7 @@
 
 # Module:
 
-| **Module**  | **Source** |  **Testbench**  |                                           Author                                           |
+| **Module**  | **Source** |  **Testbench**  |                                           Author                                                  |
 |-------------|:----------:|:---------------:|:-------------------------------------------------------------------------------------------------:|
 |   alu       |     Yes    |       Yes       |                                                                                                   |
 |   brc       |     Yes    |       Yes       |                                                                                                   |
@@ -19,6 +19,7 @@
 |   wb_Sel    |     Yes    |       Yes       |                                                                                                   |
 |pc_debug_reg |     Yes    |       Yes       |                                                                                                   |
 |instr_vld_reg|     No     |       No        |                                                                                                   |
+|sram_ctroller|     No     |       No        |                                                                                                   |
 |  singlecycle|     No     |       No        |                                                                                                   |
 
 

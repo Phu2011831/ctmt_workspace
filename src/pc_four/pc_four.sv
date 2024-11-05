@@ -4,6 +4,6 @@ module pc_four (
 );
 
 	//Lay con tro pc + 4
-	assign o_pc_four = i_pc +4;
+	assign o_pc_four = i_pc + 4;
 endmodule: pc_four
 	

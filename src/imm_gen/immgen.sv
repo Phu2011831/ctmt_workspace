@@ -1,4 +1,4 @@
-module immgen (
+module imm_gen (
 	input logic [31:0] i_instr,      // Dau vao lenh 32-bit
 	output logic [31:0] o_imm_data	// Dau ra immediate mo rong 32-bit
 );
@@ -27,4 +27,4 @@ module immgen (
 			default: o_imm_data <= 32'dx;
 		endcase
 	end
-endmodule: immgen
+endmodule: imm_gen

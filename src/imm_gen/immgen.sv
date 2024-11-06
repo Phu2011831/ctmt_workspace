@@ -6,7 +6,7 @@ module imm_gen (
 	always @(*) begin
 		case (i_instr[6:0])
 			// R-TYPE (51): Khong su dung immediate, tra ve 0
-			7'b0110011: o_imm_data <= 32'd0;
+			7'b0110011: o_imm_data <= 32'b0;
 			
 			// I-TYPE (3:Load, 19:Immediate): Lay cac bit [31:20] va mo rong dau thanh 32-bit
 			7'b0000011, 7'b0010011: o_imm_data <= {{20{i_instr[31]}}, i_instr[31:20]};
@@ -24,7 +24,7 @@ module imm_gen (
 			7'b0110111, 7'b0010111: o_imm_data <= {i_instr[31:12], 12'b0};
 			
 			// Truong hop ngoai le
-			default: o_imm_data <= 32'dx;
+			default: o_imm_data <= 32'b0;
 		endcase
 	end
 endmodule: imm_gen

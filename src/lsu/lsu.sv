@@ -54,7 +54,8 @@ module lsu
   // Arrays; mem[1:0] = byte_address (4Byte), assign by [3:0] of mem
   logic [3:0][7:0] inst_mem   [0:2**12-1]; // 0000..1FFF : 000x_xxxx_xxxx_xx'xx : 8KB = (2**11).(4B): 11-bit addr
   logic [3:0][7:0] data_mem   [0:2**12-1]; // 2000..3FFF : 001x_xxxx_xxxx_xx'xx : 8KB = (2**11).(4B): 9-bit addr 
-  logic [3:0][7:0] op_mem  [0:2**5 -1]; // 7000..703F : 0111_0000_0xxx_xx'xx : (7-2)-bit address: i_lsu_addr[6:2]
+  //logic [3:0][7:0] op_mem  [0:2**5 -1]; // 7000..703F : 0111_0000_0xxx_xx'xx : (7-2)-bit address: i_lsu_addr[6:2]
+  logic [3:0][7:0] op_mem  [0:2**7 -1];
   logic [3:0][7:0] ip_mem  [0:2**3 -1]; // 7800..781F : 0111_1000_000x_xx'xx : (5-2)-bit address: i_lsu_addr[4:2]
   
   // Temp logics
@@ -146,6 +147,7 @@ module lsu
   // Output-Peripheral connects directly ( with opmem_addr: 0111_1000_0[xxx_xxxx] )
   assign  o_io_ledr =  op_mem[7'b000_0000];       // op_mem.ledr = x7000 = 0111_0000_0'000_0000'
   assign  o_io_ledg =  op_mem[7'b001_0000];       // op_mem.ledg = x7010 = 0111_0000_0'001_0000'
+  /*
   assign  o_io_hex7 =  op_mem[7'b010_0111][6:0];  // op_mem.hex7 = x7027 = 0111_0000_0'010_0111'
   assign  o_io_hex6 =  op_mem[7'b010_0110][6:0];  // op_mem.hex6 = x7026 = 0111_0000_0'010_0110'
   assign  o_io_hex5 =  op_mem[7'b010_0101][6:0];  // op_mem.hex5 = x7025 = 0111_0000_0'010_0101'
@@ -154,6 +156,16 @@ module lsu
   assign  o_io_hex2 =  op_mem[7'b010_0010][6:0];  // op_mem.hex2 = x7022 = 0111_0000_0'010_0010'
   assign  o_io_hex1 =  op_mem[7'b010_0001][6:0];  // op_mem.hex1 = x7021 = 0111_0000_0'010_0001'
   assign  o_io_hex0 =  op_mem[7'b010_0000][6:0];  // op_mem.hex0 = x7020 = 0111_0000_0'010_0000'
+  */
+  assign  o_io_hex7 =  op_mem[7'b010_0111];  // op_mem.hex7 = x7027 = 0111_0000_0'010_0111'
+  assign  o_io_hex6 =  op_mem[7'b010_0110];  // op_mem.hex6 = x7026 = 0111_0000_0'010_0110'
+  assign  o_io_hex5 =  op_mem[7'b010_0101];  // op_mem.hex5 = x7025 = 0111_0000_0'010_0101'
+  assign  o_io_hex4 =  op_mem[7'b010_0100];  // op_mem.hex4 = x7024 = 0111_0000_0'010_0100'
+  assign  o_io_hex3 =  op_mem[7'b010_0011];  // op_mem.hex3 = x7023 = 0111_0000_0'010_0011'
+  assign  o_io_hex2 =  op_mem[7'b010_0010];  // op_mem.hex2 = x7022 = 0111_0000_0'010_0010'
+  assign  o_io_hex1 =  op_mem[7'b010_0001];  // op_mem.hex1 = x7021 = 0111_0000_0'010_0001'
+  assign  o_io_hex0 =  op_mem[7'b010_0000];  // op_mem.hex0 = x7020 = 0111_0000_0'010_0000'
+  
   assign  o_io_lcd  =  op_mem[7'b101_0000];       // op_mem.lcd  = x7030 = 0111_0000_0'101_0000'
 
   // Load-out:
@@ -162,7 +174,7 @@ module lsu
   assign  o_ld_datap  =  op_mem[i_lsu_addr[ 6:2]];
   assign  ld_data_ip  =  ip_mem[i_lsu_addr[ 4:2]];
 
-  lsu_mux3to1_32b LD_Sel (
+  lsu_data_mux3to1 LD_Select (
                            .sel_i ( addr_sel   ),
                            .inm_i ( ld_data_im ),
                            .dam_i ( ld_data_d  ),

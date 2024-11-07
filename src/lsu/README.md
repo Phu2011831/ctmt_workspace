@@ -1,0 +1,1 @@
+Haven't included sram controller and Load/Store Instruction

@@ -27,7 +27,7 @@ module op_mem
 	output logic [ 6:0] o_io_hex6,
 	output logic [ 6:0] o_io_hex7,
 	
-	output logic [31:0] o_ip_data
+	output logic [31:0] o_op_data
 );
 
 	logic [2:0] addr_sel;	
@@ -78,7 +78,7 @@ module op_mem
 	assign  o_io_lcd  =  op_mem[5'b101_00];       // op_mem.lcd  = x7030 = 0111_0000_0'101_0000'
  
 	 
-	assign op_data =(addr_sel == 3'b110) ? op_mem [i_lsu_addr[6:2]] : 32'b0;
+	assign op_data =(addr_sel == 3'b110) ? op_mem[i_lsu_addr[6:2]] : 32'b0;
 	/*
 	ex_ip_data IP_DATA_EXC (			// for lsu when implemented load/store inst
 									 .i_num_byte (i_num_byte),
@@ -90,8 +90,8 @@ module op_mem
 	IP_DATA_EXC sel_data_o(
 									 .i_num_byte (4'b1111),
 									 .i_sig_uns (1'b1),
-									 .i_data (ip_data),
-									 .o_data (o_ip_data)
+									 .i_data (op_data),
+									 .o_data (o_op_data)
 									);
 	
 endmodule: op_mem

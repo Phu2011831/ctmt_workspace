@@ -10,7 +10,6 @@ module ip_mem
 	//input  logic 	  i_sig_uns;		//signal for unsigned num
 	input  logic [31:0] i_lsu_addr,
 	input  logic [31:0] i_st_data,
-	input  logic [31:0] i_io_sw,
 	input  logic [3:0]  i_io_btn,
 	
 	//output logic [31:0] o_ld_data

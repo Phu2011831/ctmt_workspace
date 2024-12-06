@@ -25,3 +25,7 @@
 
 
 ## Architecture:
+![alt](https://github.com/user-attachments/assets/4cdfbc29-94ea-4c5a-9282-692287e221d9)
+## Applications: 
+### Design a stopwatch using seven-segment LEDs as the display: /02_test/asm/appliation1.txt
+### Convert a hexadecimal number to a decimal number and display on seven-segment LEDs: /02_test/asm/application2.txt

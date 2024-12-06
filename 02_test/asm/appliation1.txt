@@ -1,0 +1,79 @@
+#-----------------------------------------------
+# RISC-V Assembly Code for Single-Cycle Processor
+# Chức năng:
+# - Đọc giá trị từ switch và điều khiển chương trình
+# - Tăng bộ đếm mỗi giây và hiển thị giá trị trên các màn hình hex (hex0, hex1, hex2, hex3)
+# - Reset hoặc dừng chương trình dựa trên trạng thái của switch
+#-----------------------------------------------
+
+# Khởi tạo các thanh ghi
+addi x1, x0, 0x000      # x1 = 0, khởi tạo bộ đếm
+addi x2, x0, 0x400      # x2 = 0x400 (địa chỉ hex0)
+add x2, x2, x2          # x2 = 0x800
+addi x3, x2, 0x010      # x3 = 0x810 (địa chỉ hex1)
+addi x4, x2, 0x020      # x4 = 0x820 (địa chỉ hex2)
+addi x5, x2, 0x030      # x5 = 0x830 (địa chỉ hex3)
+addi x7, x2, 0x070      # x7 = 0x870 (địa chỉ thanh ghi điều khiển)
+addi x8, x0, 0x010      # x8 = 0x10
+sw x8, 0(x7)            # Bật bit 5 để kích hoạt hex display
+
+# Khởi tạo địa chỉ đọc switch
+addi x13, x2, 0x100     # x13 = 0x900 (địa chỉ switch)
+
+#-----------------------------------------------
+# Main Loop
+loop:
+    lw x14, 0(x13)          # Đọc giá trị từ switch vào x14
+    addi x15, x0, 0x03      # x15 = 0x03 (mask để lấy 2 bit cuối)
+    and x16, x15, x14       # x16 = x14 & 0x03 (lấy 2 bit thấp nhất)
+
+    # Kiểm tra trạng thái switch
+    addi x17, x0, 1         # x17 = 1
+    beq x16, x17, reset     # Nếu switch[0] = 1, nhảy tới reset
+    addi x17, x0, 2         # x17 = 2
+    beq x16, x17, loop      # Nếu switch[1] = 1, dừng chương trình
+
+    # Tách các bit từ x1 và hiển thị trên các màn hình hex
+    addi x9, x0, 0x00F      # x9 = 0x0F (mask cho 4 bit)
+    and x10, x1, x9         # Lấy 4 bit thấp nhất của x1
+    sw x10, 0(x2)           # Lưu vào hex0
+
+    srli x11, x1, 4         # Dịch phải x1 4 bit
+    and x10, x11, x9        # Lấy 4 bit tiếp theo
+    sw x10, 0(x3)           # Lưu vào hex1
+
+    srli x11, x1, 8         # Dịch phải x1 8 bit
+    and x10, x11, x9        # Lấy 4 bit tiếp theo
+    sw x10, 0(x4)           # Lưu vào hex2
+
+    srli x11, x1, 12        # Dịch phải x1 12 bit
+    and x10, x11, x9        # Lấy 4 bit tiếp theo
+    sw x10, 0(x5)           # Lưu vào hex3
+
+    #-----------------------------------------------
+    # Tạo delay khoảng 1 giây
+    addi x18, x0, 0x3D      # x18 = 0x3D
+    slli x18, x18, 12       # Dịch trái x18 12 bit (nhân với 4096)
+    addi x18, x18, 0x82     # x18 = x18 + 0x82
+delay:
+    addi x18, x18, -1       # Giảm x18
+    bne x18, x0, delay      # Lặp lại nếu x18 chưa về 0
+
+    # Tăng bộ đếm và kiểm tra giới hạn
+    addi x1, x1, 1          # Tăng x1 lên 1
+    addi x12, x0, 0x5DC     # x12 = 0x5DC (1500)
+    add x12, x12, x12       
+    add x12, x12, x12       # x12 = 6000
+    bne x1, x12, loop       # Nếu x1 chưa bằng 6000, quay lại loop
+#-----------------------------------------------
+# Reset Routine
+reset:
+    addi x1, x0, 0x000      # Đặt x1 về 0
+    sw x1, 0(x2)            # Xóa hex0
+    sw x1, 0(x3)            # Xóa hex1
+    sw x1, 0(x4)            # Xóa hex2
+    sw x1, 0(x5)            # Xóa hex3
+    jal x0, loop            # Nhảy về loop để bắt đầu lại
+
+#-----------------------------------------------
+# Kết thúc chương trình
